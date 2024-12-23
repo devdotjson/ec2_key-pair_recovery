@@ -21,7 +21,7 @@ resource "aws_security_group" "allow_web" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${var.my_ip}/32"]
+    cidr_blocks = ["${var.my_ip}"]
   }
   #all outbound
   egress {
