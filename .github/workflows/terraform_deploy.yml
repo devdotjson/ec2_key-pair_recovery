@@ -24,11 +24,11 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: Deploying EC2
+name: Terraform Deploy
 
 on:
   workflow_dispatch: # Allows manual trigger of the entire workflow
-                  # set this to your preferred AWS region, e.g. us-west-1
+
 jobs:
   authenticate:
     name: Authenticate with AWS
