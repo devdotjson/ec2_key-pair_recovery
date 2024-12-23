@@ -89,6 +89,7 @@ jobs:
     - name: Export Vars 
       run: |
         export TF_VAR_my_ip=$MY_IP
+        echo $TF_VAR_my_ip
 
     - name: Terraform Init
       run: |
