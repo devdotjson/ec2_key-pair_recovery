@@ -99,10 +99,6 @@ jobs:
         my_ip = "${{ env.MY_IP }}"
         EOF
 
-    # - name: Terraform Init
-    #   run: terraform init -input=false -backend-config-file="terraform.tfvars"
-
-
     - name: Terraform Init
       run: |
         terraform init -input=false \
@@ -113,7 +109,11 @@ jobs:
           -backend-config="dynamodb_table=${DYNAMODB_TABLE}" 
     
     - name: Terraform Plan
-      run: terraform plan
+      run: |
+        terraform plan \
+          -var="aws_region=${AWS_REGION}" \
+          -var="ec2_name=${EC2_NAME}" \
+          -var="my_ip=${MY_IP}"
 
     - name: Terraform Apply
       run: |

@@ -45,17 +45,28 @@ jobs:
         with:
           terraform_version: 1.7.0
 
-      - name: Terraform Init
+      - name: Create Terraform Variables File
         run: |
-          terraform init -input=false \
-            -var="bucket=${S3_BUCKET}" \
-            -var="key=${S3_KEY}" \
-            -var="region=${S3_REGION}" \
-            -var="encrypt=true" \
-            -var="dynamodb_table=${DYNAMODB_TABLE}"
+          cat <<EOF > terraform.tfvars
+          bucket = "${{ secrets.TF_S3_BUCKET }}"
+          key = "${{ secrets.S3_KEY }}"
+          region = "${{ secrets.S3_REGION }}"
+          encrypt = true
+          dynamodb_table = "${{ secrets.DYNAMODB_TABLE }}"
+          aws_region = "${{ secrets.AWS_REGION }}"
+          ec2_name = "${{ secrets.EC2_NAME }}"
+          my_ip = "${{ env.MY_IP }}"
+          EOF
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+        run: |
+          terraform destroy -auto-approve \
+            -backend-config="bucket=${{ secrets.TF_S3_BUCKET }}" \
+            -backend-config="key=${S3_KEY}" \
+            -backend-config="region=${S3_REGION}" \
+            -backend-config="encrypt=true" \
+            -backend-config="dynamodb_table=${DYNAMODB_TABLE}" 
+
 
       - name: Delete Private Key Artifact
         env:
