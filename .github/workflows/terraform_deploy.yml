@@ -94,7 +94,7 @@ jobs:
     - name: Terraform Init
       run: |
         terraform init -input=false \
-          -var="bucket=${S3_BUCKET}" \
+          -var="bucket=${{ secrets.TF_S3_BUCKET }}" \
           -var="key=${S3_KEY}" \
           -var="region=${S3_REGION}" \
           -var="encrypt=true" \
