@@ -27,9 +27,6 @@
 name: Deploying EC2
 
 on:
-  push:
-    branches: [ develop ]
-
   workflow_dispatch: # Allows manual trigger of the entire workflow
                   # set this to your preferred AWS region, e.g. us-west-1
 jobs:
