@@ -110,10 +110,7 @@ jobs:
           -backend-config="key=${S3_KEY}" \
           -backend-config="region=${S3_REGION}" \
           -backend-config="encrypt=true" \
-          -backend-config="dynamodb_table=${DYNAMODB_TABLE}" \
-          -var="aws_region=${AWS_REGION}" \
-          -var="ec2_name=${EC2_NAME}" \
-          -var="my_ip=${MY_IP}" \
+          -backend-config="dynamodb_table=${DYNAMODB_TABLE}" 
     
     - name: Terraform Plan
       run: terraform plan
@@ -128,7 +125,7 @@ jobs:
           -backend-config="dynamodb_table=${DYNAMODB_TABLE}" \
           -backend-config="aws_region=${AWS_REGION}" \
           -backend-config="ec2_name=${EC2_NAME}" \
-          -backend-config="my_ip=${MY_IP}"
+          -backend-config="my_ip=${MY_IP}" 
 
     - name: Upload Private Key
       uses: actions/upload-artifact@v3
