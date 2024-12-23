@@ -86,6 +86,10 @@ jobs:
       with:
         terraform_version: 1.7.0
 
+    - name: Export Vars 
+      run: |
+        export TF_VAR_my_ip=$MY_IP
+
     - name: Terraform Init
       run: |
         terraform init -input=false \
@@ -97,7 +101,6 @@ jobs:
           -var="aws_region=${AWS_REGION}" \
           -var="ec2_name=${EC2_NAME}" \
           -var="my_ip=${MY_IP}" \
-          export TF_VAR_my_ip=$MY_IP
     
     - name: Terraform Plan
       run: terraform plan
