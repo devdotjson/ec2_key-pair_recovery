@@ -2,13 +2,13 @@ terraform {
   ######################################################################
   #If you intend to use a remote backend, uncomment the following block#
   ######################################################################
-  # backend "s3" {
-  #   bucket = ""
-  #   key = ""
-  #   region = ""
-  #   encrypt = true
-  #   dynamodb_table = ""
-  # }
+  backend "s3" {
+    bucket = ""
+    key = ""
+    region = ""
+    encrypt = true
+    dynamodb_table = ""
+  }
   required_version = ">=1.7.0"
   required_providers {
     aws = {
