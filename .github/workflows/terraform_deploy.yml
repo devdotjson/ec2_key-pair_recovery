@@ -86,22 +86,34 @@ jobs:
       with:
         terraform_version: 1.7.0
 
-    - name: Export Vars 
+    - name: Create Terraform Variables File
       run: |
-        export TF_VAR_my_ip=$MY_IP
-        echo $TF_VAR_my_ip
-
+        cat <<EOF > terraform.tfvars
+        bucket = "${{ secrets.TF_S3_BUCKET }}"
+        key = "${{ secrets.S3_KEY }}"
+        region = "${{ secrets.S3_REGION }}"
+        encrypt = true
+        dynamodb_table = "${{ secrets.DYNAMODB_TABLE }}"
+        aws_region = "${{ secrets.AWS_REGION }}"
+        ec2_name = "${{ secrets.EC2_NAME }}"
+        my_ip = "${{ env.MY_IP }}"
+        EOF
+        
     - name: Terraform Init
-      run: |
-        terraform init -input=false \
-          -var="bucket=${{ secrets.TF_S3_BUCKET }}" \
-          -var="key=${S3_KEY}" \
-          -var="region=${S3_REGION}" \
-          -var="encrypt=true" \
-          -var="dynamodb_table=${DYNAMODB_TABLE}" \
-          -var="aws_region=${AWS_REGION}" \
-          -var="ec2_name=${EC2_NAME}" \
-          -var="my_ip=${MY_IP}" \
+      run: terraform init -input=false -var-file="terraform.tfvars"
+
+
+    # - name: Terraform Init
+    #   run: |
+    #     terraform init -input=false \
+    #       -var="bucket=${{ secrets.TF_S3_BUCKET }}" \
+    #       -var="key=${S3_KEY}" \
+    #       -var="region=${S3_REGION}" \
+    #       -var="encrypt=true" \
+    #       -var="dynamodb_table=${DYNAMODB_TABLE}" \
+    #       -var="aws_region=${AWS_REGION}" \
+    #       -var="ec2_name=${EC2_NAME}" \
+    #       -var="my_ip=${MY_IP}" \
     
     - name: Terraform Plan
       run: terraform plan
