@@ -47,12 +47,41 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform init \
-            -backend-config="bucket=${S3_BUCKET}" \
-            -backend-config="key=${S3_KEY}" \
-            -backend-config="region=${S3_REGION}" \
-            -backend-config="encrypt=true" \
-            -backend-config="dynamodb_table=${DYNAMODB_TABLE}"
+          terraform init -input=false \
+            -var="bucket=${S3_BUCKET}" \
+            -var="key=${S3_KEY}" \
+            -var="region=${S3_REGION}" \
+            -var="encrypt=true" \
+            -var="dynamodb_table=${DYNAMODB_TABLE}"
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
+
+      - name: Delete Private Key Artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ARTIFACT_NAME: "private-key"
+        run: |
+          # Fetch the list of artifacts
+          ARTIFACTS_JSON=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/actions/artifacts)
+          
+          # Extract the artifact ID by name
+          ARTIFACT_ID=$(echo "$ARTIFACTS_JSON" | jq -r --arg NAME "$ARTIFACT_NAME" '.artifacts[] | select(.name == $NAME) | .id')
+          
+          if [ -z "$ARTIFACT_ID" ] || [ "$ARTIFACT_ID" == "null" ]; then
+            echo "Artifact '$ARTIFACT_NAME' not found or already deleted."
+            exit 0
+          fi
+          
+          # Delete the artifact
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$ARTIFACT_ID)
+          
+          if [ "$RESPONSE" -eq "204" ]; then
+            echo "Artifact '$ARTIFACT_NAME' (ID: $ARTIFACT_ID) deleted successfully."
+          else
+            echo "Failed to delete artifact '$ARTIFACT_NAME' (ID: $ARTIFACT_ID). HTTP status code: $RESPONSE"
+            exit 1
+          fi

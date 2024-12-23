@@ -65,6 +65,10 @@ jobs:
       S3_REGION: ${{ secrets.AWS_REGION }}
       DYNAMODB_TABLE: ${{ secrets.TF_DYNAMODB_TABLE }}
       AWS_REGION: ${{ secrets.AWS_REGION }} 
+      EC2_NAME: ${{ secrets.EC2_NAME }}
+      MY_IP: ${{ secrets.MY_IP }}
+      PRIVATE_KEY_NAME: ${{ secrets.PRIVATE_KEY_NAME }}
+
 
     steps:
     - name: Checkout
@@ -84,18 +88,28 @@ jobs:
 
     - name: Terraform Init
       run: |
-        terraform init \
-          -backend-config="bucket=${S3_BUCKET}" \
-          -backend-config="key=${S3_KEY}" \
-          -backend-config="region=${S3_REGION}" \
-          -backend-config="encrypt=true" \
-          -backend-config="dynamodb_table=${DYNAMODB_TABLE}"
+        terraform init -input=false \
+          -var="bucket=${S3_BUCKET}" \
+          -var="key=${S3_KEY}" \
+          -var="region=${S3_REGION}" \
+          -var="encrypt=true" \
+          -var="dynamodb_table=${DYNAMODB_TABLE}" \
+          -var="aws_region=${AWS_REGION}" \
+          -var="ec2_name=${EC2_NAME}" \
+          -var="my_ip=${MY_IP}"
     
     - name: Terraform Plan
       run: terraform plan
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
+
+    - name: Upload Private Key
+      uses: actions/upload-artifact@v3
+      with:
+        name: private-key
+        path: ${{ secrets.PRIVATE_KEY_NAME }}
+        retention-days: 1  # Adjust as needed, default is 90
 
 
 

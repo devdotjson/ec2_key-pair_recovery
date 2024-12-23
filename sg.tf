@@ -32,6 +32,7 @@ resource "aws_security_group" "allow_web" {
   }
   tags = {
     stack = "test"
+    Environment = "StudyWithMe"
   }
   lifecycle {
     create_before_destroy = true

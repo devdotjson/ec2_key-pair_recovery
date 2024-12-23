@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "test" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = var.instance_type
   associate_public_ip_address = true
   iam_instance_profile = aws_iam_instance_profile.lost_keypair_profile.name
   ebs_optimized = true
@@ -30,7 +30,7 @@ resource "aws_instance" "test" {
     }
 
   tags = {
-    Name = "LostKeyPair"
+    Name = var.ec2_name
   }
 }
 
