@@ -60,12 +60,7 @@ jobs:
 
       - name: Terraform Destroy
         run: |
-          terraform destroy -auto-approve \
-            -backend-config="bucket=${{ secrets.TF_S3_BUCKET }}" \
-            -backend-config="key=${S3_KEY}" \
-            -backend-config="region=${S3_REGION}" \
-            -backend-config="encrypt=true" \
-            -backend-config="dynamodb_table=${DYNAMODB_TABLE}" \
+          terraform destroy -auto-approve -input=false \
             -var="region=${AWS_REGION}" \
             -var="ec2_name=${EC2_NAME}" \
             -var="my_ip=${MY_IP}" 
