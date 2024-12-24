@@ -81,6 +81,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }} 
 
+    - name: Checkout
+      uses: actions/checkout@v2
+
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v2.0.0
       with:
@@ -98,6 +101,19 @@ jobs:
         ec2_name = "${{ secrets.EC2_NAME }}"
         my_ip = "${{ env.MY_IP }}"
         EOF
+
+    - name: TFLint
+      uses: pauloconnor/tflint-action@v0.0.2 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          tflint_path: . #environments/
+          tflint_recurse: true
+          tflint_enabled_rules:
+            terraform_required_providers
+            terraform_standard_module_structure
+          tflint_disabled_rules:
+            terraform_deprecated_interpolation
 
     - name: Terraform Init
       run: |
