@@ -28,6 +28,10 @@ jobs:
       S3_KEY: ${{ secrets.TF_S3_KEY }}
       S3_REGION: ${{ secrets.AWS_REGION }}
       DYNAMODB_TABLE: ${{ secrets.TF_DYNAMODB_TABLE }}
+      AWS_REGION: ${{ secrets.AWS_REGION }} 
+      EC2_NAME: ${{ secrets.EC2_NAME }}
+      MY_IP: ${{ secrets.MY_IP }}
+      PRIVATE_KEY_NAME: ${{ secrets.PRIVATE_KEY_NAME }}
 
     steps:
       - name: Checkout
