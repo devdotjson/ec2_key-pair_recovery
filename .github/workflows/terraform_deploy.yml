@@ -97,7 +97,7 @@ jobs:
     - name: TFLint
       uses: actions/@notrenderfarm/tflint-action@v1
       with:
-        directory: '.'
+        directory: 'ec2_key-pair_recovery'
 
   terraform_deploy:
     name: Terraform Deploy
