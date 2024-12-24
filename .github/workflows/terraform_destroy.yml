@@ -58,6 +58,15 @@ jobs:
           my_ip = "${{ env.MY_IP }}"
           EOF
 
+      - name: Terraform Init
+        run: |
+          terraform init -input=false \
+            -backend-config="bucket=${{ secrets.TF_S3_BUCKET }}" \
+            -backend-config="key=${S3_KEY}" \
+            -backend-config="region=${S3_REGION}" \
+            -backend-config="encrypt=true" \
+            -backend-config="dynamodb_table=${DYNAMODB_TABLE}" 
+
       - name: Terraform Destroy
         run: |
           terraform destroy -auto-approve -input=false \
