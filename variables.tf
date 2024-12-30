@@ -44,3 +44,10 @@ variable "ssm_role_name" {
   default     = "ssm_role_instance"
   
 }
+
+variable "cloudwatch_metrics_server_name" {
+  description = "Name of the CloudWatch metrics server"
+  type        = string
+  default     = "cloudwatch_metrics_server"
+  
+}

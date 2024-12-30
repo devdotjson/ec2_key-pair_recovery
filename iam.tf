@@ -3,6 +3,7 @@ resource "aws_iam_instance_profile" "lost_keypair_profile" {
   role = aws_iam_role.role.name
 }
 
+
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
@@ -26,3 +27,4 @@ resource "aws_iam_role_policy_attachment" "dev-resources-ssm-policy" {
   role       = aws_iam_role.role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
+
