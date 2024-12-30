@@ -14,26 +14,6 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_instance" "test" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-  associate_public_ip_address = true
-  iam_instance_profile = aws_iam_instance_profile.lost_keypair_profile.name
-  ebs_optimized = true
-  key_name = aws_key_pair.binding.key_name
-  user_data = filebase64("${path.module}/ssm-agent-install.sh")
-  subnet_id = module.vpc.public_subnets[0]
-  security_groups = [aws_security_group.allow_web.id]
-    root_block_device {
-        volume_size = 8
-        encrypted = true
-    }
-
-  tags = {
-    Name = var.ec2_name
-  }
-}
-
 resource "aws_key_pair" "binding" {
   key_name   = var.broken_key_name
   public_key = tls_private_key.ED25519.public_key_openssh
