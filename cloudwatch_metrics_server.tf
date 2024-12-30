@@ -11,7 +11,7 @@ data "aws_ami" "this" {
   }
 }
 
-resource "aws_instance" "test" {
+resource "aws_instance" "Cloudwatch_metrics_server" {
   ami           = data.aws_ami.this.id
   instance_type = var.instance_type
   associate_public_ip_address = true
