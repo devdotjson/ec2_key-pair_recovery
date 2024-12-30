@@ -94,10 +94,6 @@ jobs:
     #       tflint_disabled_rules:
     #         terraform_deprecated_interpolation
 
-    - name: TFLint
-      uses: actions/@notrenderfarm/tflint-action@v1
-      with:
-        directory: 'ec2_key-pair_recovery'
 
   terraform_deploy:
     name: Terraform Deploy
