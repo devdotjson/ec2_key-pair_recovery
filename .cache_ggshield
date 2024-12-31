@@ -1,1 +1,1 @@
-{"last_found_secrets": [{"name": "OpenSSH Private Key - commit://staged/goop.pem", "match": "26e41265633dcce21d197b94beaca2778fe185c5b43839528fdf01e437049641"}]}
+{"last_found_secrets": [{"match": "26e41265633dcce21d197b94beaca2778fe185c5b43839528fdf01e437049641", "name": "OpenSSH Private Key - commit://staged/goop.pem"}]}
