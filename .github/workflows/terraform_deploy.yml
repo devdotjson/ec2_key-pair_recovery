@@ -63,10 +63,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Install Terraform
-      uses: little-core-labs/install-terraform@v2.0.0
-      with:
-        terraform_version: 1.7.0
+    # - name: Install Terraform
+    #   uses: little-core-labs/install-terraform@v2.0.0
+    #   with:
+    #     terraform_version: 1.7.0
 
     - name: Create Terraform Variables File
       run: |
@@ -125,10 +125,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Install Terraform
-      uses: little-core-labs/install-terraform@v2.0.0
-      with:
-        terraform_version: 1.7.0
+    # - name: Install Terraform
+    #   uses: little-core-labs/install-terraform@v2.0.0
+    #   with:
+    #     terraform_version: 1.7.0
 
     - name: Create Terraform Variables File
       run: |

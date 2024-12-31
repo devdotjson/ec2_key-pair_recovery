@@ -16,6 +16,13 @@ resource "aws_security_group" "allow_web" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  # allow ssh
+  # ingress {
+  #   from_port   = 22
+  #   to_port     = 22
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
   #all outbound
   egress {
     from_port   = 0
