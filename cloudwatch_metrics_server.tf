@@ -1,10 +1,7 @@
 data "aws_ami" "this" {
   most_recent = true
   owners      = ["amazon"]
-  filter {
-    name   = "architecture"
-    values = ["amd64"]
-  }
+
   filter {
     name   = "name"
     values = ["amzn2-ami-hvm*"]
